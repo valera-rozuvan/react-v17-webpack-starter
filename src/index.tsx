@@ -1,7 +1,9 @@
 import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
+// import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 // Below, the alias 'ReduxDevtools' is pointing to 'src/utilities/redux-devtools/extension.ts' file.
@@ -40,12 +42,19 @@ if (process.env.NODE_ENV === 'development') {
   store = createStore(rootReducer);
 }
 
-const root = document.getElementById('root');
-render(
+const container = document.getElementById('root');
+
+if (!container) {
+  throw new Error('Did not find element with id "root".');
+}
+
+// Create a root.
+const root = createRoot(container);
+
+root.render(
   <Provider store={store}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>,
-  root,
 );
